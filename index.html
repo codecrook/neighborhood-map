@@ -5,6 +5,7 @@
     <title> Dhabas of Bhubaneswar </title>
 
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Baumans'>
     <!--jQuery-->
     <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -13,14 +14,28 @@
   </head>
 
   <body>
+
     <div class="search-box-container" id="search-box-container">
-      <input class="search-input" placeholder="Search your Dhaba here" type="text" name="q">
+      <input class="search-box-input" placeholder="Search your Dhaba here" type="text" name="q" data-bind="value: searchQuery, valueUpdate: 'keyup'">
+
+      <ul class="search-results-list" data-bind="visible: searchQuery, template: {name: 'search-result-template', foreach: search}">
+      </ul>
     </div>
+
     <div class="map-container" id="map-container"></div>
-    <script src="js/lib/knockout-3.4.2.js"></script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEArnN6PcHEu8QNZ7dv8AsqCK9PVPrC1o&callback=initMap">
+
+    <!--Template to display the search results-->
+    <script type="text/template" id="search-result-template">
+      <li class="search-result" data-bind="text: title, click: openInfowindow"></li>
     </script>
+
+    <!--Knockout JS-->
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <!--Google Map API-->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?v=3.32&key=AIzaSyDEArnN6PcHEu8QNZ7dv8AsqCK9PVPrC1o"
+        onerror="googleMapError()"></script>
+
     <script src="js/app.js"></script>
   </body>
 </html>

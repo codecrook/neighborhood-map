@@ -1,32 +1,20 @@
 var map;
 var Bhubaneswar = {lat: 20.2961, lng: 85.8245};
-
 var mapApiKey = 'AIzaSyDEArnN6PcHEu8QNZ7dv8AsqCK9PVPrC1o';
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map-container'), {
     center: Bhubaneswar,
-    zoom: 12,
+    zoom: 11,
     mapTypeControl: false
   });
-
-  var DhabaLocationModel = {
-    locations: [
-      new DhabaLocation('Jungle View', 20.401943, 85.806067, 'ChIJH62rupQOGToRFiMvN5pH5m4'),
-      new DhabaLocation('Nakli Dhaba', 20.300328, 85.819313, 'ChIJ70Z_acYJGToRpoKdWV3ryk0'),
-      new DhabaLocation('Brother\'s Dahaba', 20.2169217, 85.8518417, 'ChIJO8A4iTOhGToRCB6ms6N6yCM'),
-      new DhabaLocation('Yummyies Dhaba', 20.356689, 85.8887489, 'ChIJkaYOyZ8LGToRvDnL9952RUw'),
-      new DhabaLocation('Behera Dhaba', 20.2337221, 85.74291549, 'ChIJHVC1QF-oGToROltP04gs5qQ'),
-      new DhabaLocation('Jaalazza - The Urban Dhaba', 20.3556818, 85.81583980000005, 'ChIJiSQJAyMJGToRvzMdfjsB-mg'),
-      new DhabaLocation('Chilika Dhaba', 20.3493646, 85.82502869999996, 'ChIJ1xMiUhQJGToRVxCaWX41VpQ'),
-      new DhabaLocation('Smart Dhaba', 20.3533282, 85.82409759999996, 'ChIJO2bGGT4JGToR07MTsXJoHUQ'),
-      new DhabaLocation('YUMMYIES', 20.278748, 85.84481800000003, 'ChIJ__-_PlqnGToR61DqmdPH9YU'),
-    ],
-  };
 }
 
 function googleMapError() {
   window.alert("Problem in Google Map");
 }
+
+initMap();
 
 //Creating the DhabaLocation class that'll store all the info and functions required
 var DhabaLocation = function(title, lat, lng, placeID) {
@@ -76,7 +64,11 @@ var DhabaLocation = function(title, lat, lng, placeID) {
 
     this.marker = new google.maps.Marker({
       position: {lat: self.lat, lng: self.lng},
-      icon: 'http://www.googlemapsmarkers.com/v1/990000/',
+      icon: new google.maps.MarkerImage('http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|990000|40|_|%E2%80%A2',
+                                          new google.maps.Size(25, 40),
+                                          new google.maps.Point(0, 0),
+                                          new google.maps.Point(10, 34),
+                                          new google.maps.Size(25, 40)),
       animation: google.maps.Animation.DROP,
       map: map,
       title: self.title
@@ -92,6 +84,27 @@ var DhabaLocation = function(title, lat, lng, placeID) {
     this.addListener = google.maps.event.addListener(self.marker,'click', (this.openInfowindow));
 };
 
-function googleMapError() {
-  window.alert("Problem in Google Map");
-}
+var DhabaLocationModel = {
+  locations: [
+    new DhabaLocation('Jungle View', 20.401943, 85.806067, 'ChIJH62rupQOGToRFiMvN5pH5m4'),
+    new DhabaLocation('Nakli Dhaba', 20.300328, 85.819313, 'ChIJ70Z_acYJGToRpoKdWV3ryk0'),
+    new DhabaLocation('Brother\'s Dahaba', 20.2169217, 85.8518417, 'ChIJO8A4iTOhGToRCB6ms6N6yCM'),
+    new DhabaLocation('Yummyies Dhaba', 20.356689, 85.8887489, 'ChIJkaYOyZ8LGToRvDnL9952RUw'),
+    new DhabaLocation('Behera Dhaba', 20.2337221, 85.74291549, 'ChIJHVC1QF-oGToROltP04gs5qQ'),
+    new DhabaLocation('Jaalazza - The Urban Dhaba', 20.3556818, 85.81583980000005, 'ChIJiSQJAyMJGToRvzMdfjsB-mg'),
+    new DhabaLocation('Chilika Dhaba', 20.3493646, 85.82502869999996, 'ChIJ1xMiUhQJGToRVxCaWX41VpQ'),
+    new DhabaLocation('Smart Dhaba', 20.3533282, 85.82409759999996, 'ChIJO2bGGT4JGToR07MTsXJoHUQ'),
+    new DhabaLocation('YUMMYIES', 20.278748, 85.84481800000003, 'ChIJ__-_PlqnGToR61DqmdPH9YU'),
+  ],
+  searchQuery: ko.observable('')
+};
+
+DhabaLocationModel.search = ko.dependentObservable(function() {
+  var self = this;
+  var search = this.searchQuery().toLowerCase();
+  return ko.utils.arrayFilter(self.locations, function(location) {
+    return location.title.toLowerCase().indexOf(search) >= 0;
+  });
+}, DhabaLocationModel);
+
+ko.applyBindings(DhabaLocationModel);
