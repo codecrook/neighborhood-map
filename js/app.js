@@ -2,6 +2,9 @@ var map;
 var Bhubaneswar = {lat: 20.2961, lng: 85.8245};
 var mapApiKey = 'AIzaSyDEArnN6PcHEu8QNZ7dv8AsqCK9PVPrC1o';
 
+var infowindow = new google.maps.InfoWindow();
+
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map-container'), {
     center: Bhubaneswar,
@@ -15,6 +18,7 @@ function googleMapError() {
 }
 
 initMap();
+var service = new google.maps.places.PlacesService(map);
 
 //Creating the DhabaLocation class that'll store all the info and functions required
 var DhabaLocation = function(title, lat, lng, placeID) {
@@ -33,33 +37,32 @@ var DhabaLocation = function(title, lat, lng, placeID) {
     var phone_no;
     //var dhabaImg;
 
-    var placeURL = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${self.placeID}&key=${mapApiKey}`;
 
-    // Function to be Debugged latter
-    $.ajax({
-      url: placeURL,
-      dataType: 'jsonp',
-      type: "GET",
-      crossOrigin: true,
-      xhrFields: { withCredentials: true },
-      cache: false
-    }).done(function(data){
-      rating = data.result.rating.toString();
-      address = data.result.formatted_address.toString();
-      phone_no = data.result.formatted_phone_number.toString();
-      $.each(data.result.reviews, function(i, review) {
-        reviews.push(`<li>${review.text}</li>`);
-      });
+    service.getDetails({
+      placeId: self.placeID
+    }, function(result, status){
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        rating = result.rating.toString();
+        address = result.adr_address.toString();
+        //phone_no = result.international_phone_number.toString();
 
-      self.content = `<h2>${self.title}</h2>
-                      <h3>${rating}</h3>
-                      <h3>Phone: ${phone_no}</h3>
-                      <p><b>Address:</b> ${address}</p>`
-                      + '<ol class="ratings">' +reviews.join(' ')+ '</ol>';
-      }).fail(function(){
+        $.each(result.reviews, function(i, review) {
+          reviews.push(`<li>${review.text}</li>`);
+        });
+
+        self.content = `<h2>${self.title}</h2>
+                        <div class="info-window">
+                        <h3>${rating}</h3>
+                        <p><strong>Phone:</strong> ${phone_no}</p>
+                        <p><b>Address:</b> ${address}</p>
+                        <h3>Reviews:</h3>`
+                        + '<ol class="ratings">' +reviews.join(' ')+ '</ol></div>';
+      } else {
         self.content = `<h2>${self.title}</h2>
                         <p class = "error-msg">Error with Places API</p>`;
-      });
+      }
+    });
+
     }();
 
     this.marker = new google.maps.Marker({
@@ -74,12 +77,10 @@ var DhabaLocation = function(title, lat, lng, placeID) {
       title: self.title
     });
 
-    this.infowindow = new google.maps.InfoWindow();
-
     this.openInfowindow = function() {
       map.panTo(self.marker.getPosition());
-      self.infowindow.setContent(self.content);
-      self.infowindow.open(map,self.marker);
+      infowindow.setContent(self.content);
+      infowindow.open(map,self.marker);
     };
     this.addListener = google.maps.event.addListener(self.marker,'click', (this.openInfowindow));
 };

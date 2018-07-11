@@ -14,7 +14,7 @@ html,
 	z-index: 1;
 }
 
-.ratings,
+.info-window,
 .search-box-container {
 	font-family: 'Baumans';
 	font-size: 1.1em;
