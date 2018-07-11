@@ -18,7 +18,8 @@ function googleMapError() {
 }
 
 initMap();
-var service = new google.maps.places.PlacesService(map);
+
+var placeService = new google.maps.places.PlacesService(map);
 
 //Creating the DhabaLocation class that'll store all the info and functions required
 var DhabaLocation = function(title, lat, lng, placeID) {
@@ -35,16 +36,19 @@ var DhabaLocation = function(title, lat, lng, placeID) {
     var reviews = [];
     var address;
     var phone_no;
-    //var dhabaImg;
 
-
-    service.getDetails({
+    placeService.getDetails({
       placeId: self.placeID
     }, function(result, status){
       if (status == google.maps.places.PlacesServiceStatus.OK) {
-        rating = result.rating.toString();
-        address = result.adr_address.toString();
-        //phone_no = result.international_phone_number.toString();
+        rating = result.rating;
+        address = result.adr_address;
+
+        if (result.international_phone_number) {
+          phone_no = result.international_phone_number;
+        }else {
+          phone_no = "Not Found!"
+        }
 
         $.each(result.reviews, function(i, review) {
           reviews.push(`<li>${review.text}</li>`);
@@ -52,11 +56,11 @@ var DhabaLocation = function(title, lat, lng, placeID) {
 
         self.content = `<h2>${self.title}</h2>
                         <div class="info-window">
-                        <h3>${rating}</h3>
-                        <p><strong>Phone:</strong> ${phone_no}</p>
-                        <p><b>Address:</b> ${address}</p>
+                        <h3>Rating: ${rating} <i class="fas fa-star rating"></i></h3>
+                        <p><i class="fas fa-phone"></i> ${phone_no}</p>
+                        <p><b><i class="fas fa-map-marker-alt"></i></b> ${address}</p>
                         <h3>Reviews:</h3>`
-                        + '<ol class="ratings">' +reviews.join(' ')+ '</ol></div>';
+                        + '<ol class="review">' +reviews.join(' ')+ '</ol></div>';
       } else {
         self.content = `<h2>${self.title}</h2>
                         <p class = "error-msg">Error with Places API</p>`;

@@ -11,7 +11,6 @@ html,
 	left: 0;
 	position: absolute;
 	top: 0;
-	z-index: 1;
 }
 
 .info-window,
@@ -63,6 +62,12 @@ html,
 	color: red;
 	text-align: center;
 	width: 100%;
+}
+.review{
+	color: #475351;
+}
+.rating{
+	color: #FFDF00;
 }
 
 @media (max-width:600px) {
