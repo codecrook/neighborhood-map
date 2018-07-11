@@ -71,11 +71,7 @@ var DhabaLocation = function(title, lat, lng, placeID) {
 
     this.marker = new google.maps.Marker({
       position: {lat: self.lat, lng: self.lng},
-      icon: new google.maps.MarkerImage('http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|990000|40|_|%E2%80%A2',
-                                          new google.maps.Size(25, 40),
-                                          new google.maps.Point(0, 0),
-                                          new google.maps.Point(10, 34),
-                                          new google.maps.Size(25, 40)),
+      icon: createMarkerIcon('990000'),
       animation: google.maps.Animation.DROP,
       map: map,
       title: self.title
@@ -87,6 +83,13 @@ var DhabaLocation = function(title, lat, lng, placeID) {
       infowindow.open(map,self.marker);
     };
     this.addListener = google.maps.event.addListener(self.marker,'click', (this.openInfowindow));
+
+    this.marker.addListener('mouseover', function() {
+        this.setIcon(createMarkerIcon('8B008B'));
+    });
+    this.marker.addListener('mouseout', function() {
+        this.setIcon(createMarkerIcon('990000'));
+    });
 };
 
 var DhabaLocationModel = {
@@ -113,3 +116,14 @@ DhabaLocationModel.search = ko.dependentObservable(function() {
 }, DhabaLocationModel);
 
 ko.applyBindings(DhabaLocationModel);
+
+function createMarkerIcon(markerColor) {
+  var markerImage = new google.maps.MarkerImage(
+    'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
+    '|40|_|%E2%80%A2',
+    new google.maps.Size(25, 40),
+    new google.maps.Point(0, 0),
+    new google.maps.Point(10, 34),
+    new google.maps.Size(25, 40));
+  return markerImage;
+}
