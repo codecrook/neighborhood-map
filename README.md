@@ -21,18 +21,23 @@ This app requires,
 * [Knockout JS](http://knockoutjs.com/)
 * [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial)
 * [Google Places API](https://developers.google.com/places/web-service/intro)
+* [Google Chart API](https://developers.google.com/chart/)
 * [jQuery](https://jquery.com/)
 * [Bootstrap](https://getbootstrap.com/)
 
 ## Project Features
 
 * The app shows the locations of the 'Dhabas'in Bhubaneswar
-* In search-box we can search for our favourite dhaba. It filters the search result depending upon the search query 
+* In search-box we can search for our favourite dhaba. It filters the search result depending upon the search query
 * InfoWindow containing name, image, rating, recent reviews and street address of the 'dhaba' populates when individual Marker or entry in the list is clicked.
 
 ## How to Run the application
 
 Clone or download the project and open the `index.html` in your browser.
+
+--OR--
+
+[Click here](https://codecrook.github.io/neighborhood-map/) for the live demo.
 
 ## Helpful Resources
 * [Google Maps APIs](https://developers.google.com/maps/)
