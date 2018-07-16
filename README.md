@@ -22,6 +22,7 @@ This app requires,
 * [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial)
 * [Google Places API](https://developers.google.com/places/web-service/intro)
 * [Google Chart API](https://developers.google.com/chart/)
+* [OpenWeatherMap API](https://openweathermap.org/api)
 * [jQuery](https://jquery.com/)
 * [Bootstrap](https://getbootstrap.com/)
 
@@ -30,6 +31,7 @@ This app requires,
 * The app shows the locations of the 'Dhabas'in Bhubaneswar
 * In search-box we can search for our favourite dhaba. It filters the search result depending upon the search query
 * InfoWindow containing name, image, rating, recent reviews and street address of the 'dhaba' populates when individual Marker or entry in the list is clicked.
+* This also shows the current weather condition of the city
 
 ## How to Run the application
 
