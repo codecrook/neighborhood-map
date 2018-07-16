@@ -57,7 +57,21 @@ html,
 	color: #FFFFFF;
 	cursor: pointer;
 }
-
+.weather-info{
+    background-color: #006699;
+    border: 2px solid #8B008B;
+    border-radius: 5px;
+    bottom: 5px;
+    color: azure;
+    font-family: 'Baumans';
+    font-size: 1em;
+    padding: 0 5px 0 5px;
+    max-height: 100%;
+    opacity: 0.8;
+    position: absolute;
+    right: 40px;
+    z-index: 1;
+}
 .error-msg{
 	color: red;
 	text-align: center;
@@ -68,6 +82,16 @@ html,
 }
 .rating{
 	color: #FFDF00;
+}
+.weather-icon{
+    float: left;
+}
+.weather-description{
+    float: right;
+}
+.weather-temp{
+    clear: both;
+    font-weight: bold;
 }
 
 @media (max-width:600px) {
