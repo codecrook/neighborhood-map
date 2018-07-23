@@ -25,7 +25,7 @@
         <div class="search-box-container" id="search-box-container">
             <input class="search-box-input" placeholder="Search your Dhaba here" type="text" name="q" data-bind="value: searchQuery, valueUpdate: 'keyup'">
             
-            <ul class="search-results-list" data-bind="template: {name: 'search-result-template', foreach: search}"></ul>
+            <ul class="search-results-list" data-bind="visible: searchQuery, template: {name: 'search-result-template', foreach: search}"></ul>
         </div>
         
         <!--Template to display the search results-->

@@ -145,7 +145,8 @@
             this.setIcon(createMarkerIcon('990000'));
         });
         
-    };
+        
+	};
     
     var DhabaLocationModel = {
         locations: [
@@ -187,5 +188,14 @@
             new google.maps.Size(25, 40));
         return markerImage;
     }
+    
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+
     
 })();
